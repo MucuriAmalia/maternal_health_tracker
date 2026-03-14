@@ -53,10 +53,16 @@ public function store(Request $request)
      */
 public function show(AncVisit $ancVisit)
 {
-    $ancVisit->load('mother');
+    $ancVisit->load([
+        'mother',
+        'investigations' => function ($query) {
+            $query->latest();
+        }
+    ]);
 
     return view('anc_visits.show', compact('ancVisit'));
 }
+
 
     /**
      * Show the form for editing the specified resource.

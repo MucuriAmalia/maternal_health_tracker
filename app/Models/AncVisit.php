@@ -19,4 +19,9 @@ class AncVisit extends Model
     {
         return $this->belongsTo(Mother::class);
     }
+
+    public function investigations()
+{
+    return $this->hasMany(Investigation::class);
+}
 }

@@ -34,7 +34,19 @@ class Mother extends Model
     }
 
     public function ancVisits()
+    {
+        return $this->hasMany(AncVisit::class);
+    }
+
+    public function deliveries()
+    {
+        return $this->hasMany(Delivery::class);
+    }
+
+    public function postnatalCareVisits()
 {
-    return $this->hasMany(AncVisit::class);
+    return $this->hasMany(PostnatalCareVisit::class);
 }
+
+
 }

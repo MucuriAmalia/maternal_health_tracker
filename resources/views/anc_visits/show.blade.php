@@ -10,6 +10,90 @@
                 </p>
             </div>
 
+            <div class="bg-white shadow rounded-xl p-6 mt-6">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+        <div>
+            <h3 class="text-lg font-bold text-gray-900">Investigations</h3>
+            <p class="text-sm text-gray-500">Lab tests and clinical investigations linked to this ANC visit.</p>
+        </div>
+
+        <a href="{{ route('investigations.create', ['anc_visit_id' => $ancVisit->id]) }}"
+           class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-indigo-700 transition">
+            + Add Investigation
+        </a>
+    </div>
+
+    @if($ancVisit->investigations->count())
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-4 py-3 text-left text-xs font-bold uppercase text-gray-500">Type</th>
+                        <th class="px-4 py-3 text-left text-xs font-bold uppercase text-gray-500">Result</th>
+                        <th class="px-4 py-3 text-left text-xs font-bold uppercase text-gray-500">Status</th>
+                        <th class="px-4 py-3 text-left text-xs font-bold uppercase text-gray-500">Date</th>
+                        <th class="px-4 py-3 text-left text-xs font-bold uppercase text-gray-500">Notes</th>
+                        <th class="px-4 py-3 text-right text-xs font-bold uppercase text-gray-500">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100 bg-white">
+                    @foreach($ancVisit->investigations as $investigation)
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3 text-sm text-gray-800">
+                                {{ $investigation->investigation_type }}
+                            </td>
+
+                            <td class="px-4 py-3 text-sm text-gray-600">
+                                {{ $investigation->result ?? '—' }}
+                            </td>
+
+                            <td class="px-4 py-3 text-sm">
+                                <span class="inline-flex rounded-full px-3 py-1 text-xs font-semibold
+                                    @if($investigation->status === 'pending') bg-yellow-100 text-yellow-800
+                                    @elseif($investigation->status === 'done') bg-blue-100 text-blue-800
+                                    @else bg-green-100 text-green-800
+                                    @endif">
+                                    {{ ucfirst($investigation->status) }}
+                                </span>
+                            </td>
+
+                            <td class="px-4 py-3 text-sm text-gray-600">
+                                {{ $investigation->investigation_date ?? '—' }}
+                            </td>
+
+                            <td class="px-4 py-3 text-sm text-gray-600">
+                                {{ $investigation->notes ? \Illuminate\Support\Str::limit($investigation->notes, 40) : '—' }}
+                            </td>
+
+                            <td class="px-4 py-3 text-sm text-right space-x-2">
+                                <a href="{{ route('investigations.show', $investigation) }}"
+                                   class="inline-flex rounded-md bg-slate-100 px-3 py-2 text-slate-700 hover:bg-slate-200">
+                                    View
+                                </a>
+
+                                <a href="{{ route('investigations.edit', $investigation) }}"
+                                   class="inline-flex rounded-md bg-amber-100 px-3 py-2 text-amber-700 hover:bg-amber-200">
+                                    Edit
+                                </a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    @else
+        <div class="rounded-lg border border-dashed border-gray-300 bg-gray-50 px-4 py-6 text-center">
+            <p class="text-sm text-gray-500">No investigations have been added for this visit yet.</p>
+
+            <a href="{{ route('investigations.create', ['anc_visit_id' => $ancVisit->id]) }}"
+               class="mt-4 inline-flex items-center justify-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-indigo-700 transition">
+                Add First Investigation
+            </a>
+        </div>
+    @endif
+</div>
+
+
             <div class="flex flex-col sm:flex-row gap-3">
                 <a href="{{ route('anc-visits.edit', $ancVisit) }}"
                    class="inline-flex items-center justify-center rounded-lg bg-amber-500 px-5 py-3 text-sm font-semibold text-white shadow hover:bg-amber-600 transition">
