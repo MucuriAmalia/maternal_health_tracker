@@ -9,34 +9,36 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-public function up(): void
-{
-    Schema::create('deliveries', function (Blueprint $table) {
-        $table->id();
+    public function up(): void
+    {
+        Schema::create('deliveries', function (Blueprint $table) {
+            $table->id();
 
-        $table->foreignId('mother_id')->constrained()->cascadeOnDelete();
-        $table->foreignId('anc_visit_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('mother_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('anc_visit_id')->nullable()->constrained()->nullOnDelete();
 
-        $table->date('delivery_date');
-        $table->time('delivery_time')->nullable();
+            $table->date('delivery_date');
+            $table->time('delivery_time')->nullable();
 
-        $table->string('delivery_type'); 
-        // Normal, Caesarean, Assisted
+            $table->string('delivery_type'); 
+            // Normal, Caesarean, Assisted
 
-        $table->string('baby_gender');
-        // Male, Female
+            $table->integer('number_of_babies')->default(1);
+            // Handles twins, triplets etc.
 
-        $table->decimal('baby_weight', 5, 2)->nullable();
+            $table->string('baby_gender')->nullable();
+            // Male, Female (nullable because twins may differ)
 
-        $table->string('delivery_outcome')->default('Alive');
-        // Alive / Stillbirth
+            $table->decimal('baby_weight', 5, 2)->nullable();
 
-        $table->text('notes')->nullable();
+            $table->string('delivery_outcome')->default('Alive');
+            // Alive / Stillbirth
 
-        $table->timestamps();
-    });
-}
+            $table->text('notes')->nullable();
 
+            $table->timestamps();
+        });
+    }
 
     /**
      * Reverse the migrations.

@@ -11,6 +11,10 @@
             </div>
 
             <div class="flex gap-3">
+                <a href="{{ route('deliveries.pdf', $delivery) }}"
+   class="inline-flex items-center justify-center rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-red-700 transition">
+    Download PDF
+</a>
                 <a href="{{ route('postnatal-care-visits.edit', $postnatalCareVisit) }}"
                    class="inline-flex items-center justify-center rounded-lg bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white shadow hover:bg-amber-600 transition">
                     Edit Record

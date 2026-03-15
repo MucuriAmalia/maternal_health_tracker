@@ -115,4 +115,18 @@ class PostnatalCareVisitController extends Controller
             ->route('postnatal-care-visits.index')
             ->with('success', 'Postnatal care visit deleted successfully.');
     }
+
+    public function pdf(PostnatalCareVisit $postnatalCareVisit)
+{
+    $postnatalCareVisit->load(['mother','delivery']);
+
+    $pdf = Pdf::loadView(
+        'postnatal-care-visits.pdf',
+        compact('postnatalCareVisit')
+    );
+
+    return $pdf->download(
+        'postnatal-visit-'.$postnatalCareVisit->id.'.pdf'
+    );
+}
 }

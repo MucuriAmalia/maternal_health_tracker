@@ -127,4 +127,13 @@ class DeliveryController extends Controller
             ->route('deliveries.index')
             ->with('success', 'Delivery record deleted successfully.');
     }
+
+    public function pdf(\App\Models\Delivery $delivery)
+{
+    $delivery->load(['mother', 'ancVisit']);
+
+    $pdf = Pdf::loadView('deliveries.pdf', compact('delivery'));
+
+    return $pdf->download('delivery-record-' . $delivery->id . '.pdf');
+}
 }
